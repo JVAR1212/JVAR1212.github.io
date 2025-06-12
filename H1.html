@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>PROYECTO PAEC</title>
+  </head>
+  <style>
+    body {
+
+    background-image: url('FondoPR1.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+
+      font-family: Arial;
+      line-height: 1.6; /* Interlineado */
+      background-color: white;
+    }
+
+    header {
+      background-color: rgb(196, 215, 245);
+      padding: 20px; 
+      display: flex; /* Los elementos de ponen en una fila horizontal */
+      align-items: center;
+    }
+    header img {
+      height: 50px; /* Altura de la imagen del logo */
+      margin-right: 250px; /* Espacio entre el logo y el título */
+      margin-left: 20px;
+    }
+    header h1 {
+      margin: 0; /* Quita el margen del título */
+      color: black;
+    }
+
+    .introduccion {
+      padding: 10px; /* Espacio alrededor del contenido */
+      text-align: center;
+      max-width: 800px; /* Ancho máximo del párrafo */
+      margin: 0 auto; /* Centra el párrafo horizontalmente */
+      color: rgb(39, 38, 38);
+    }
+
+    .cajasg {
+      display: flex; /* Se ponen los temas en fila */
+      justify-content: space-around; /* Se separan los temas por tamaños iguales */
+      padding: 20px;
+    }
+
+    .caja {
+      background-color: rgb(196, 215, 245);
+      padding: 15px; /* Espacio adentro */
+      margin: 10px; /* El espacio que se separa de lo demas por fuera */
+      width: 30%; /* Ancho de las cajitas */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.199); /*Hace que se vea una tipo sombra en las cajitas */
+      text-align: center;
+      transition: transform 0.4s; /* Hace que el efecto de levitacion sea como mas fluido */
+    }
+
+    .caja:hover {
+      transform: translateY(-10px); /* Hace que puedan levantarse las cajitas como levitar */
+    }
+
+    .caja img {
+      max-width: 100%; /* La imagen se queda dentro de ka cajita */
+      height: 50%;
+      border-radius: 19px; /* Bordes redondeados para la imagen */
+    }
+    .caja h2 {
+      margin-top: 10px; /* Espacio arriba del titulo */
+      font-size: 24px;
+      color: #202020;
+    }
+    .caja p {
+      font-size: 16px; 
+      color: rgb(85, 84, 84);
+    }
+    .caja a {
+      margin-top: 10px;
+      text-decoration: none; /* Quita el subrayado para la palabra leer mas */
+      font-weight: bold;
+      color: blueviolet;
+    }
+
+
+
+
+  </style>
+<body>
+  <header>
+    <img src="ImgPR/logo.png" alt="Logo de la página" />
+    <h1>PROYECTO PAEC</h1>
+  </header>
+
+  <section class="introduccion">
+    <p>Bienvenidos a nuestra web. Aquí encontrarás información sobre reciclaje, basura electrónica y alfabetización digital.</p>
+  </section>
+
+  <section class="cajasg">
+    <div class="caja">
+      <img src="ImgPR/Reci1.png" alt="Reciclaje" />
+      <h2>Reciclaje electronico</h2>
+      <p>Descubre prácticas y consejos para reducir, reutilizar y reciclar tus residuos electrónicos.</p>
+      <a href="Paginas secundarias/WReciclaje.html">Leer más</a>
+    </div>
+
+    <div class="caja">
+      <img src="ImgPR/Basura1.png" alt="Basura Electrónica" />
+      <h2>Basura Electrónica</h2>
+      <p>Entérate de los riesgos y soluciones para la gestión adecuada de residuos electrónicos.</p>
+      <a href="Paginas secundarias/WBasura.html">Leer más</a>
+    </div>
+
+    <div class="caja">
+      <img src="ImgPR/Alfa1.png" alt="Alfabetización Digital" />
+      <h2>Alfabetización Digital</h2>
+      <p>Conoce recursos y programas para mejorar tus habilidades digitales y navegar de forma segura.</p>
+      <a href="Paginas secundarias/WAlfabetizacion.html">Leer más</a>
+    </div>
+  </section>
+</body>
+</html>
