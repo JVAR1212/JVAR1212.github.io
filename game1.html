@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Reciclaje Electrónico</title>
+  <style>
+    body {
+      
+    background-image: url('FondoPR1.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: lightslategray;
+      text-align: center;
+    }
+
+    #pantallaInicio {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .seleccion {
+      display: flex;
+      gap: 40px;
+      margin-top: 20px;
+    }
+
+    .seleccion img {
+      width: 100px;
+      height: 100px;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+
+    .seleccion img:hover {
+      border-color: rgb(196, 215, 245);
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    #juego {
+      position: relative;
+      width: 480px;
+      height: 320px;
+      margin: 20px auto;
+      background-image: url('Fondo.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 4px solid white;
+      overflow: hidden;
+    }
+
+    #personaje {
+      position: absolute;
+      bottom: 10px;
+      left: 210px;
+      width: 60px;
+      height: 60px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .objeto {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      top: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .electronico1 {
+      background-image: url('celular.png');
+    }
+
+    .electronico2 {
+      background-image: url('pc1.png');
+    }
+
+    .basura1 {
+      background-image: url('lata.png');
+    }
+
+    .basura2 {
+      background-image: url('bolsa.png');
+    }
+
+    #info {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    #info span {
+      margin: 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="pantallaInicio">
+    <h2>Elige tu personaje</h2>
+    <div class="seleccion">
+      <img src="personaje1.png" alt="Personaje 1" onclick="iniciarJuego('personaje1.png')">
+      <img src="personaje2.png" alt="Personaje 2" onclick="iniciarJuego('personaje2.png')">
+    </div>
+  </div>
+
+  <h1>¡Atrapa solo la basura electrónica!</h1>
+  <div id="juego">
+    <div id="personaje"></div>
+  </div>
+  <div id="info">
+    <span id="puntos">Puntos: 0</span>
+    <span id="vidas">Vidas: 3</span>
+  </div>
+
+  <audio id="sonidoPunto" src="sonido.mp3" preload="auto"></audio>
+
+  <script>
+    const personaje = document.getElementById("personaje");
+    const juego = document.getElementById("juego");
+    const puntosSpan = document.getElementById("puntos");
+    const vidasSpan = document.getElementById("vidas");
+    const sonidoPunto = document.getElementById("sonidoPunto");
+    const pantallaInicio = document.getElementById("pantallaInicio");
+
+    let puntos = 0;
+    let vidas = 3;
+    let posX = 210;
+    let intervaloObjetos;
+    let velocidadCaida = 1; // comienza lento
+
+    function iniciarJuego(img) {
+      personaje.style.backgroundImage = `url(${img})`;
+      pantallaInicio.style.display = 'none';
+      document.addEventListener("keydown", moverPersonaje);
+      intervaloObjetos = setInterval(crearObjeto, 1000);
+    }
+
+    function moverPersonaje(e) {
+      if (e.key === "ArrowLeft" && posX > 0) {
+        posX -= 20;
+      }
+      if (e.key === "ArrowRight" && posX < 420) {
+        posX += 20;
+      }
+      personaje.style.left = posX + "px";
+    }
+
+    function crearObjeto() {
+      const objeto = document.createElement("div");
+      const tipo = Math.random();
+      let clase;
+
+      if (tipo < 0.25) {
+        clase = "electronico1";
+      } else if (tipo < 0.5) {
+        clase = "electronico2";
+      } else if (tipo < 0.75) {
+        clase = "basura1";
+      } else {
+        clase = "basura2";
+      }
+
+      objeto.classList.add("objeto", clase);
+      objeto.style.left = Math.floor(Math.random() * 440) + "px";
+      juego.appendChild(objeto);
+
+      let top = 0;
+      const caida = setInterval(() => {
+        top += velocidadCaida;
+        objeto.style.top = top + "px";
+
+        const objRect = objeto.getBoundingClientRect();
+        const persRect = personaje.getBoundingClientRect();
+
+        if (
+          objRect.bottom >= persRect.top &&
+          objRect.left < persRect.right &&
+          objRect.right > persRect.left
+        ) {
+          juego.removeChild(objeto);
+          clearInterval(caida);
+          if (clase === "electronico1" || clase === "electronico2") {
+            puntos++;
+            puntosSpan.textContent = "Puntos: " + puntos;
+            sonidoPunto.currentTime = 0;
+            sonidoPunto.play();
+
+            // Aumentar velocidad cada 5 puntos, hasta un máximo de 10
+            if (puntos % 5 === 0 && velocidadCaida < 10) {
+              velocidadCaida++;
+            }
+
+          } else {
+            vidas--;
+            vidasSpan.textContent = "Vidas: " + vidas;
+            if (vidas === 0) {
+              alert("¡Juego terminado! Puntuación final: " + puntos);
+              clearInterval(intervaloObjetos);
+              location.reload();
+            }
+          }
+        }
+
+        if (top > 320) {
+          juego.removeChild(objeto);
+          clearInterval(caida);
+        }
+      }, 20);
+    }
+  </script>
+</body>
+</html>
